@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest package="com.bignerdranch.android.criminalintent"
+          xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+                     android:maxSdkVersion="18"
+        />
+    <uses-feature android:name="android.hardware.camera"
+                  android:required="false"
+        />
+
+    <application
+        android:name=".CriminalIntentApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".CrimePagerActivity"
+            android:label="@string/app_name"
+            android:parentActivityName=".CrimeListActivity">
+        </activity>
+        <activity android:name=".CrimeListActivity">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+
+        </activity>
+        <activity android:name="com.facebook.FacebookActivity"
+                  android:configChanges=
+                      "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+                  android:label="@string/app_name"
+                  android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/app_id"/>
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationName"
+            android:value="@string/app_name"/>
+        <!--<meta-data-->
+
+        <!--android:name="com.facebook.sdk.WebDialogTheme"-->
+        <!--android:resource="@android:style/Theme.Translucent.NoTitleBar"/>-->
+        <provider
+            android:name="com.facebook.FacebookContentProvider"
+            android:authorities="com.facebook.app.FacebookContentProvider770206233091961"
+            android:exported="true"/>
+    </application>
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+</manifest>
