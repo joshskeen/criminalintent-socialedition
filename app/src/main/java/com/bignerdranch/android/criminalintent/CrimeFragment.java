@@ -99,53 +99,23 @@ public class CrimeFragment extends Fragment {
         mCallbacks = null;
     }
 
-    private SharePhotoContent buildShareContent() {
-        if (mPhotoFile != null) {
-            Bitmap bitmap = PictureUtils.getScaledBitmap(mPhotoFile.getPath(), getActivity());
-            Uri uri = Uri.fromFile(mPhotoFile);
-            System.out.println(uri);
-            SharePhoto build = new SharePhoto.Builder()
-                    .setImageUrl(Uri.fromFile(mPhotoFile))
-                    .setBitmap(bitmap)
-                    .setCaption("Test Foo!").setUserGenerated(true).build();
-            SharePhotoContent build1 = new SharePhotoContent.Builder().addPhoto(build)
-                    .build();
-
-            return build1;
-
-//            builder.setUserGenerated(true);
-//            builder.setImageUrl(uri);
-//            sharePhoto = new SharePhoto.Builder()
-//                    .setBitmap(bitmap)
-//                    .setCaption("yep!")
-////                    .setImageUrl(uri)
-////                    .setUserGenerated(true)
-//                    .build();
-//            builder.setCaption("Crime Report Image");
+    private void updateFacebookShareButton() {
+        Bitmap bitmap = PictureUtils.getScaledBitmap(mPhotoFile.getPath(), getActivity());
+        mShareButton.setEnabled(false);
+        if (bitmap == null) {
+            return;
         }
-//
-//        ShareOpenGraphObject.Builder graphObjectBuilder = new ShareOpenGraphObject.Builder();
-//        graphObjectBuilder
-//                .putString("og:type", "article")
-//                .putString("og:title", "Crime Report");
-//
-////        if (sharePhoto != null) {
-////            ArrayList<SharePhoto> sharePhotos = new ArrayList<>();
-////            sharePhotos.add(0, sharePhoto);
-////            graphObjectBuilder.putPhotoArrayList("image", sharePhotos);
-////        }
-//
-//        graphObjectBuilder.putString("og:description", "bill stole the yogurt");
-//        graphObjectBuilder.putPhoto("og:photo", sharePhoto);
-//        ShareOpenGraphObject graphObject = graphObjectBuilder.build();
-//        ShareOpenGraphAction.Builder openGraphActionBuilder = new ShareOpenGraphAction.Builder();
-//        openGraphActionBuilder.setActionType("news.publishes");
-//        openGraphActionBuilder.putObject("article", graphObject).build();
-//        return new ShareOpenGraphContent.Builder()
-//                .setAction(openGraphActionBuilder.build())
-//                .setPreviewPropertyName("article")
-//                .build();
-        return null;
+        mShareButton.setEnabled(true);
+        Uri imageUri = Uri.fromFile(mPhotoFile);
+        SharePhoto.Builder sharePhotoBuilder = new SharePhoto.Builder();
+        sharePhotoBuilder.setImageUrl(imageUri)
+                .setUserGenerated(true)
+                .setBitmap(bitmap);
+        SharePhotoContent photoContent = new SharePhotoContent.Builder()
+                .addPhoto(sharePhotoBuilder.build())
+                .build();
+        mShareButton.setShareContent(photoContent);
+        mShareButton.setFragment(this);
     }
 
     @Override
@@ -178,30 +148,6 @@ public class CrimeFragment extends Fragment {
             }
         });
 
-//        ShareOpenGraphObject object = new ShareOpenGraphObject.Builder()
-//                .putString("og:type", "article")
-//                .putString("og:title", "Crime Report")
-////                .putString("og:image", "http://i.imgur.com/DvpvklR.png")
-//                .putString("og:description", "bill stole the yogurt")
-//                .putString("books:isbn", "0-553-57340-3")
-//                .build();
-//
-////        SharePhoto sharePhoto = new SharePhoto.Builder().setBitmap()
-//
-//        ShareOpenGraphAction action = new ShareOpenGraphAction.Builder()
-//                .setActionType("news.publishes")
-////                .putPhoto("foo", )
-//                .putObject("article", object)
-//                .build();
-
-
-//        ShareOpenGraphContent content = new ShareOpenGraphContent.Builder()
-//                .setPreviewPropertyName("article")
-//                .setAction(action)
-//                .build();
-
-
-        setupShareButton();
         mDateButton = (Button) v.findViewById(R.id.crime_date);
         updateDate();
         mDateButton.setOnClickListener(new View.OnClickListener() {
@@ -279,14 +225,9 @@ public class CrimeFragment extends Fragment {
 
         mPhotoView = (ImageView) v.findViewById(R.id.crime_photo);
         updatePhotoView();
-
         return v;
     }
 
-    private void setupShareButton() {
-        mShareButton.setShareContent(buildShareContent());
-        mShareButton.setFragment(this);
-    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -372,8 +313,7 @@ public class CrimeFragment extends Fragment {
             Bitmap bitmap = PictureUtils.getScaledBitmap(
                     mPhotoFile.getPath(), getActivity());
             mPhotoView.setImageBitmap(bitmap);
-
-            setupShareButton();
         }
+        updateFacebookShareButton();
     }
 }
