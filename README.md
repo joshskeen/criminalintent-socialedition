@@ -5,7 +5,7 @@ To test, you must either have an emulator or hardware device with the facebook a
 See facebook android developer docs for details on installing. 
 
 1.  visit https://developers.facebook.com/ & log in with a facebook account. It's best if
-you create a new facebook account for test purposes so as to not spam your normal facebook friends.
+you create a new facebook account for test purposes so as to not spam your normal facebook friends!
 
 2. under My Apps click Add New App & select android
 
